@@ -1,14 +1,23 @@
 import tkinter as tk
 from tkinter import messagebox
 
+import currency_calculator
 
-def clear_field_and_show_input():
-    input_text = entry.get()
-    selected_currency_1 = from_curr.get()
-    selected_currency_2 = to_curr.get()
 
-    if is_valid_number(input_text):
-        label_display.config(text=f"Calculated amount: {input_text} {selected_currency_2}")
+def clear_action():
+    entry.delete(0, tk.END)
+    label_display.config(
+        text="")
+
+
+def convert_action():
+    amount = entry.get()
+    if is_valid_number(amount):
+        from_value = from_curr.get()
+        to_value = to_curr.get()
+        converted_amount = currency_calculator.convert_and_display(from_value, to_value, amount)
+        label_display.config(
+            text=f"{amount} {from_value} = {converted_amount:.2f} {to_value}")
         entry.delete(0, tk.END)
     else:
         messagebox.showerror("Invalid Input", "Please enter a valid number (integer or float).")
@@ -22,9 +31,9 @@ def is_valid_number(input_text):
         return False
 
 
-def create_drop_down(input_frame):
-    currency_var = tk.StringVar(value="$")
-    currency_dropdown = tk.OptionMenu(input_frame, currency_var, "$", "€")
+def create_drop_down(frame):
+    currency_var = tk.StringVar(value=all_codes[0])
+    currency_dropdown = tk.OptionMenu(frame, currency_var, *all_codes)
     currency_dropdown.pack(side=tk.LEFT)
     return currency_var
 
@@ -37,6 +46,7 @@ input_frame = tk.Frame(root)
 input_frame.pack(pady=20)
 
 tk.Label(input_frame, text="From:").pack(side=tk.LEFT, padx=5)
+all_codes = currency_calculator.get_currencies_codes()
 
 from_curr = create_drop_down(input_frame)
 
@@ -47,7 +57,10 @@ tk.Label(input_frame, text="To:").pack(side=tk.LEFT, padx=5)
 
 to_curr = create_drop_down(input_frame)
 
-clear_button = tk.Button(root, text="Clear & Show Input", command=clear_field_and_show_input)
+convert_button = tk.Button(root, text="Convert", command=convert_action)
+convert_button.pack(pady=10)
+
+clear_button = tk.Button(root, text="Clear", command=clear_action)
 clear_button.pack(pady=10)
 
 label_display = tk.Label(root, text="", font=("Helvetica", 14))
