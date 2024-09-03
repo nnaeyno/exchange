@@ -8,6 +8,8 @@ def clear_action():
     entry.delete(0, tk.END)
     label_display.config(
         text="")
+    from_curr.set(all_codes[0])
+    to_curr.set(all_codes[0])
 
 
 def convert_action():
