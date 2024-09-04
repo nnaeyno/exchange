@@ -41,7 +41,7 @@ def create_drop_down(frame):
 
 
 root = tk.Tk()
-root.title("Clear Field App")
+root.title("Currency converter")
 root.geometry("450x300")
 
 input_frame = tk.Frame(root)
@@ -59,11 +59,14 @@ tk.Label(input_frame, text="To:").pack(side=tk.LEFT, padx=5)
 
 to_curr = create_drop_down(input_frame)
 
-convert_button = tk.Button(root, text="Convert", command=convert_action)
-convert_button.pack(pady=10)
+button_frame = tk.Frame(root)
+button_frame.pack(pady=10)
 
-clear_button = tk.Button(root, text="Clear", command=clear_action)
-clear_button.pack(pady=10)
+convert_button = tk.Button(button_frame, text="Convert", command=convert_action)
+convert_button.pack(side=tk.LEFT, padx=5)
+
+clear_button = tk.Button(button_frame, text="Clear", command=clear_action)
+clear_button.pack(side=tk.LEFT, padx=5)
 
 label_display = tk.Label(root, text="", font=("Helvetica", 14))
 label_display.pack(pady=10)
